@@ -1,0 +1,67 @@
+var $noteList = $("#note-list");
+var $noteTitle = $("#note-title");
+var $noteText = $("#note-body");
+var $submitBtn = $("#submit-btn");
+
+// Gets all quotes from the database, renders the quotes list
+var getAndRenderNotes = function() {
+  $.ajax({
+    url: "/api/notes",
+    method: "GET"
+  }).then(function(data) {
+    var $listItems = [];
+
+    // Loop through and build a list item for each quote returned from the db
+    for (var i = 0; i < data.length; i++) {
+      var note = data[i];
+      var noteListItem = `<li class="list-group-item">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">${note.title}</h5>
+          <p class="card-text">${note.body}</p>
+          <a href="#" class="card-link"><i class="fas fa-edit"></i></a>
+          <a href="#" class="card-link"><i class="fas fa-trash-alt"></i></a>
+        </div>
+      </div>
+    </li>`;
+
+      $listItems.push(noteListItem);
+    }
+
+    $noteList.empty();
+
+    $noteList.append($listItems);
+  });
+};
+
+// Submits the note from the form to the db
+var handleNoteSubmit = function(event) {
+  event.preventDefault();
+
+  var note = {
+    title: $noteTitle.val().trim(),
+    body: $noteText.val().trim()
+  };
+
+  if (!note.title || !note.body) {
+    alert("Please fill out all the required fields!");
+    return;
+  }
+
+  $.ajax({
+    url: "/api/quotes",
+    method: "POST",
+    data: note
+  })
+    .then(function() {
+      getAndRenderNotes();
+      $noteTitle.val("");
+      $noteText.val("");
+    });
+};
+
+
+getAndRenderNotes();
+
+$submitBtn.on("click", handleNoteSubmit);
+

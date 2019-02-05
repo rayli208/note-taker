@@ -9,6 +9,7 @@ var getAndRenderNotes = function() {
     url: "/api/notes",
     method: "GET"
   }).then(function(data) {
+    console.log(data);
     var $listItems = [];
 
     // Loop through and build a list item for each note returned from the db

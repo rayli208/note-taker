@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const db = require("../../config/connection");
 
-router.get("/api/notes", function(req, res) {
+router.get("/", function(req, res) {
   db.query("SELECT * FROM notes ORDER BY id DESC", function(err, dbNotes) {
     if (err) throw err;
 
@@ -9,7 +9,7 @@ router.get("/api/notes", function(req, res) {
   });
 });
 
-router.post("/api/notes", function(req, res) {
+router.post("/", function(req, res) {
   db.query("INSERT INTO notes SET ?", [req.body], function(err, result) {
     if (err) throw err;
 

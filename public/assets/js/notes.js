@@ -3,7 +3,7 @@ var $noteTitle = $("#note-title");
 var $noteText = $("#note-body");
 var $submitBtn = $("#submit-btn");
 
-// Gets all quotes from the database, renders the quotes list
+// Gets all notes from the database, renders the notes list
 var getAndRenderNotes = function() {
   $.ajax({
     url: "/api/notes",
@@ -11,7 +11,7 @@ var getAndRenderNotes = function() {
   }).then(function(data) {
     var $listItems = [];
 
-    // Loop through and build a list item for each quote returned from the db
+    // Loop through and build a list item for each note returned from the db
     for (var i = 0; i < data.length; i++) {
       var note = data[i];
       var noteListItem = `<li class="list-group-item">
@@ -49,7 +49,7 @@ var handleNoteSubmit = function(event) {
   }
 
   $.ajax({
-    url: "/api/quotes",
+    url: "/api/notes",
     method: "POST",
     data: note
   })
